@@ -1,13 +1,13 @@
-# Launching a Next (JavaScript) Application with Docker
+# Launching a NextJS (JavaScript) Application with Docker
 
-This guide explains how to set up and launch a Next (JavaScript) application using Docker.
+This guide explains how to set up and launch a Next JS (JavaScript) application using Docker.
 
 ## Prerequisites
 
 Before starting, ensure you have the following tools installed on your machine:
 
 - [Docker](https://www.docker.com/products/docker-desktop)
-- [Next](https://nextjs.org/docs)
+- [Next JS](https://nextjs.org/docs)
 
 ## Dockerfile Content
 
