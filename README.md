@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Launching a Next (JavaScript) Application with Docker
 
-## Getting Started
+This guide explains how to set up and launch a Next (JavaScript) application using Docker.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Before starting, ensure you have the following tools installed on your machine:
+
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Next](https://nextjs.org/docs)
+
+## Dockerfile Content
+
+This repository contains a Docker setup for a Next application.
+
+```Dockerfile
+# Use the official Node.js image as a base
+FROM node:20-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy necessary files to install dependencies
+COPY package.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application files
+COPY . .
+
+# Expose the port specified via an argument (default: 3000)
+ARG PORT=3000
+EXPOSE ${PORT}
+
+# Command to start the application
+CMD ["npm", "run", "start:prod"]
+
+```
+## Steps to Launch the Application
+
+1. Build the Docker Image
+
+To build the Docker image, use the following command in the directory containing the Dockerfile:
+
+```
+docker build -t door-next .
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run the Container
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Once the image is built, run a container from this image:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+docker run -p 8080:3000 door-next
+```
 
-## Learn More
+3. Access the Application
 
-To learn more about Next.js, take a look at the following resources:
+Open your browser and go to the following URL to see your application running:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+http://localhost:8080
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. Environment Variables
 
-## Deploy on Vercel
+If you need to configure additional environment variables, modify the .env file that was copied into the container during the image build.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Publishing the Image on Docker Hub
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Log In to Docker Hub
+
+Before publishing your image, log in to Docker Hub with your Docker account:
+
+```
+docker login
+```
+
+2. Tag the Image
+
+Tag the image you built with your Docker Hub username and the image name:
+
+```
+docker tag door-next your_dockerhub_username/door-next:latest
+```
+Replace your_dockerhub_username with your Docker Hub username.
+
+3. Push the Image to Docker Hub
+
+Push the tagged image to Docker Hub:
+
+```
+docker push your_dockerhub_username/door-next:latest
+```
+
