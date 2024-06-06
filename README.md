@@ -1,4 +1,4 @@
-# Launching a NextJS (JavaScript) Application with Docker
+# Launching a Next JS (JavaScript) Application with Docker
 
 This guide explains how to set up and launch a Next JS (JavaScript) application using Docker.
 
